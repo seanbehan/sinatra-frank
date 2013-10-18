@@ -46,16 +46,14 @@ module Sinatra
         end
       end
     end
-  end
 
-  module HoneyPot
-    def honey_pot(parameter)
-      before {
-        halt 403, "So sorry but something went wrong." unless request.params[parameter].empty?
-      }
+    module HoneyPot
+      def honey_pot_param(param)
+        before { halt(403, "Something went wrong") if params && params[param] }
+      end
     end
   end
 
-  helpers Frank
-  register HoneyPot
+  helpers Frank::Helpers
+  register Frank::HoneyPot
 end
